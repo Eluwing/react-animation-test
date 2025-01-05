@@ -44,9 +44,9 @@ export default {
         'nijiirozamurai-zuma': "url('/foel-nijiirozamurai-zuma.svg')",
         'nijiirozamurai-zuma-sub': "url('/foel-nijiirozamurai-zuma-sub.svg')",
         'nijiirozamurai-zuma-sub': "url('/foel-nijiirozamurai-zuma-sub.svg')",
-        'parallax-1': "url('img_parallax.jpg')",
-        'parallax-2': "url('img_parallax2.jpg')",
-        'parallax-3': "url('img_parallax3.jpg')",
+        'parallax-1': "url('/img_parallax.jpg')",
+        'parallax-2': "url('/img_parallax2.jpg')",
+        'parallax-3': "url('/img_parallax3.jpg')",
       },
       animation: {
         rotateInLeft: 'rotateInLeft 1s ease-in-out',
