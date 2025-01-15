@@ -4,6 +4,6 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/react-animation-test/', // 배포 경로 설정
+  base: '/', // 배포 경로 설정
   publicDir: 'public', // 정적 파일 경로
 })
