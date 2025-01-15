@@ -66,6 +66,7 @@ function AnimationTest() {
             <div className="absolute grid grid-cols-2 gap-10 left-1/2 transform -translate-x-1/2">
               {tempCardContents.map((item) => (
                 <Card
+                  key={item}
                   className="w-[200px] h-[150px] border-2 border-white bg-white text-black mt-20"
                   contents={item}
                 />
