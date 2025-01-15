@@ -6,8 +6,8 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AnimationTest />} />
-        <Route path="/slider" element={<SliderTest />} />
+        <Route path="/react-animation-test/" element={<AnimationTest />} />
+        <Route path="/react-animation-test/slider" element={<SliderTest />} />
       </Routes>
     </Router>
   );
