@@ -25,12 +25,15 @@ const SliderTest = () => {
         loop={true}
       >
         {/* Custom Navigation Buttons */}
-        {sliderItemData.map((item,index)=>(
+        {sliderItemData.map((item, index) => (
           <SwiperSlide className="" key={`${item.name}-${index}`}>
-            <div className="w-screen h-screen bg-cover z-0" style={{ backgroundImage:`url('${item.src}')` }}>
-            {item.name}
+            <div
+              className="w-screen h-screen bg-cover z-0"
+              style={{ backgroundImage: `url('${item.src}')` }}
+            >
+              {item.name}
             </div>
-            </SwiperSlide>
+          </SwiperSlide>
         ))}
       </Swiper>
       <CustomPagination swiperRef={swiperRef} />
@@ -40,45 +43,70 @@ const SliderTest = () => {
 
 export default SliderTest;
 
-export const CustomPagination = ({ swiperRef }: { swiperRef: React.RefObject<SwiperType | null> }) => {
+export const CustomPagination = ({
+  swiperRef,
+}: {
+  swiperRef: React.RefObject<SwiperType | null>;
+}) => {
   const [activeIndex, setActiveIndex] = useState(0);
-
   useEffect(() => {
     const swiper = swiperRef.current;
 
     if (swiper) {
-      swiper.on("slideChange", () => {
-        setActiveIndex(swiper.activeIndex);
-      });
+      const handleSlideChange = () => setActiveIndex(swiper.activeIndex);
+      swiper.on("slideChange", handleSlideChange);
+
+      // Cleanup listener on component unmount
+      return () => {
+        swiper.off("slideChange", handleSlideChange);
+      };
     }
   }, [swiperRef]);
 
   const bullets = Array.from({ length: 3 }, (_, index) => (
     <button
       key={index}
-      className={`w-4 h-4 rounded-full mx-1 ${
-        activeIndex === index ? "bg-blue-500" : "bg-gray-300"
+      className={`bg-gray-600 w-3 h-3 rounded-full relative ${
+        activeIndex === index ? "bg-[#d9d9d9]" : "bg-gray-300"
       }`}
       onClick={() => swiperRef.current?.slideTo(index)}
     />
   ));
+  const handleNavigation = (direction: "prev" | "next") => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+
+    const { activeIndex, slides } = swiper;
+    const isFirstSlide = activeIndex === 0;
+    const isLastSlide = activeIndex === slides.length - 1;
+
+    if (direction === "prev") {
+      swiper.slideTo(isFirstSlide ? slides.length - 1 : activeIndex - 1);
+    } else if (direction === "next") {
+      swiper.slideTo(isLastSlide ? 0 : activeIndex + 1);
+    }
+  };
   return (
-    <div className="absolute top-1/2 -translate-y-1/2 left-4 flex flex-col gap-2 bg-black z-10">
-      <div>
-        {bullets}
-      </div>
+    <div className="absolute top-1/2 -translate-y-1/2 right-4 flex  gap-2 bg-black z-10">
+      <div className="grid gap-1">{bullets}</div>
+      <div className="grid">
       <button
-        className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-        onClick={() => swiperRef.current?.slidePrev()}
+        className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 transition-transform duration-200"
+        onClick={() => handleNavigation("prev")}
+        aria-label="Previous Slide"
       >
         ▲
       </button>
       <button
-        className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600"
-        onClick={() => swiperRef.current?.slideNext()}
+        className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center hover:bg-blue-600 transition-transform duration-200"
+        onClick={() => handleNavigation("next")}
+        aria-label="Next Slide"
       >
         ▼
       </button>
+
+      </div>
+
     </div>
   );
 };
